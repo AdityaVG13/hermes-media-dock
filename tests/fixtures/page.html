@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8"><title>media dock fixture</title>
+<style>
+html,body{height:100%}
+body{background:#111;color:#eee;font:14px system-ui,sans-serif;margin:0;display:flex;flex-direction:column;gap:12px;padding:16px;box-sizing:border-box}
+header{flex:0 0 auto;font-size:15px;font-weight:600}
+/* The media area takes every pixel the card gives it: a fixture that only fills its own
+   content height makes a correct pane look broken (it was 2/3 empty in a detached card). */
+main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:1px solid #2a2a2a;border-radius:10px;background:#151515}
+audio{width:100%;max-width:640px}
+footer{flex:0 0 auto}
+#probe{margin:0;font:12px ui-monospace,monospace;color:#9a9a9a}
+</style></head>
+<body>
+<header>Media Dock fixture page</header>
+<main>
+  <audio id="a" src="tone.wav" controls loop>
+    <track id="t" kind="subtitles" src="demo.vtt" srclang="en" label="English" default>
+  </audio>
+</main>
+<footer><p id="probe">boot</p></footer>
+<script>
+// The page reports the graph state and the measured RMS of the boosted signal, and puts
+// it in document.title so the dock's own title row carries it out to a UIA test.
+const a = document.getElementById('a'), out = document.getElementById('probe');
+let an = null, buf = null;
+function probe() {
+  const G = a.__mdG ? a.__mdG.g.gain.value : 1;
+  let rms = 0;
+  if (a.__mdG) {
+    if (!an) { an = a.__mdG.ctx.createAnalyser(); an.fftSize = 2048; a.__mdG.g.connect(an); buf = new Float32Array(an.fftSize); }
+    an.getFloatTimeDomainData(buf);
+    let s = 0; for (let i = 0; i < buf.length; i++) s += buf[i] * buf[i];
+    rms = Math.sqrt(s / buf.length);
+  }
+  const st = window.__mdAgent ? window.__mdAgent.state() : null;
+  const cue = st && st.cue ? st.cue.slice(0, 46) : '';
+  const txt = 'gain=' + G.toFixed(2) + ' rms=' + rms.toFixed(4) + ' cue=' + (cue || '-') + ' sel=' + (st ? st.sel : '?') + ' trk=' + (st ? st.trk : '?');
+  out.textContent = txt;
+  document.title = txt;
+}
+setInterval(probe, 250);
+a.play().catch(() => {});
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+name: media-dock
+label: Media Dock
+version: 0.1.0
+manifest_version: 2
+api_version: 1
+license: MIT
+description: >-
+  Paste any http(s) URL. Direct media files play with real controls; other pages load as-is in a sandbox. No per-site rules.
+author: Aditya
+tags: [desktop, media, player, sandbox]
+requires_hermes: ">=0.22.2"

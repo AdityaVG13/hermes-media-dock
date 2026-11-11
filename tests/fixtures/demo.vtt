@@ -1,0 +1,10 @@
+WEBVTT
+
+00:00:00.500 --> 00:00:03.000
+First fixture cue: captions arrive from a real text track.
+
+00:00:03.000 --> 00:00:06.000
+Second cue: the overlay replaces the page's own rendering.
+
+00:00:06.000 --> 00:00:08.000
+Third cue: translation is offered only when the engine exists.

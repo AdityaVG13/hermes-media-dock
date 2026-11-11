@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>live fixture</title>
+<body style="margin:0;background:#111">
+<canvas id="c" width="480" height="270" style="width:480px;height:270px"></canvas>
+<video id="v" muted autoplay playsinline style="width:480px;height:270px"></video>
+<audio id="a" muted autoplay></audio>
+<script>
+const c = document.getElementById('c'), x = c.getContext('2d');
+let i = 0;
+setInterval(() => { x.fillStyle = 'hsl(' + (i++ % 360) + ',70%,45%)'; x.fillRect(0, 0, 480, 270) }, 100);
+const v = document.getElementById('v');
+v.srcObject = c.captureStream(30);
+v.play().catch(() => {});
+// an audio stream too, so the agent's pick() sees a media element with Infinity duration
+const ac = new AudioContext(); const o = ac.createOscillator(); const d = ac.createMediaStreamDestination();
+o.frequency.value = 220; o.connect(d); o.start();
+document.getElementById('a').srcObject = d.stream;
+</script>

@@ -1,0 +1,20 @@
+data/
+*.bak
+__pycache__/
+.ruff_cache/
+tests/_render_gate_work/
+
+# Books written by a public-hygiene review are never published.
+.public-clean/
+
+# Local measurement debris: CPU profiles and hotspot tables name this machine's paths.
+tests/artifacts/
+
+# Local-only working docs and agent scaffolding are never published.
+internal/
+AGENTS.md
+.skill-loop-progress.md
+
+# Superseded perf artifact: pre-fix harness reported an LF-normalized source hash.
+# 20261106T040957 is authoritative. Deletion needs the owner's written permission.
+tests/artifacts/perf/20261106T040844/

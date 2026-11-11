@@ -1,0 +1,5 @@
+# Byte-exact source is a contract here: scripts/deploy.py publishes desktop/plugin.js by
+# sha256 and perf_probe.py pins a golden hash of the shipped module. A Windows
+# checkout with core.autocrlf=true would rewrite LF to CRLF and silently change
+# both. Disable all text conversion so committed bytes == deployed bytes.
+* -text
